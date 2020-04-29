@@ -1,0 +1,58 @@
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    background-color: #abcdef;
+}
+#cards{
+    position:fixed;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 100px;
+}
+.item{
+    position: absolute;
+    left: 150px;
+    top:150px;
+    box-sizing: border-box;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    background-color: aqua;
+    padding: 10px;
+    cursor: move;
+}
+.item .wish{
+    width: 100%;
+    margin-top: 8px;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.item .close{
+    position: absolute;
+    top:1px;
+    right: 5px;
+    cursor: pointer;
+}
+
+
+
+
+
+.text{
+    position:fixed;
+    left: 0;
+    right: 0;
+    margin:auto;
+    padding:5px;
+    box-sizing: border-box;
+    bottom:29px;
+    outline:none;
+    width: 230px;
+    height: 45px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
