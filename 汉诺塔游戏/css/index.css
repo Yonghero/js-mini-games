@@ -1,0 +1,7 @@
+.game {
+    width: 800px;
+    height: 400px;
+    background:gray;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
