@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/index.css">
 </head>
+
 <body>
+    <div class="calendar-container">
+        <div class="calendar-select">
+            <select id="selectYear">
+            </select>
+            年
+            <select id="selectMonth">
+            </select>
+            月
+            <button id="selectToday">今天</button>
+        </div>
+        <div class="calendar-week">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>日</span>
+        </div>
+        <div id="days" class="calendar-days">
+        </div>
+    </div>
     <script src="./js/index.js"></script>
 </body>
+
 </html>

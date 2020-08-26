@@ -1,0 +1,40 @@
+.calendar-container {
+    width: 600px;
+    background: #008c8c;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+}
+
+.calendar-container .calendar-select {
+    text-align: center;
+}
+
+.calendar-container .calendar-week, .calendar-container .calendar-days {
+    display: grid;
+    /* 分成7列 每列的宽度一致 单位fr代表比例 */
+    grid-template-columns: repeat(7, 1fr);
+    justify-items: center;
+    align-items: center;
+}
+
+.calendar-container .calendar-week {
+    margin: 1em 0;
+}
+
+.calendar-container .calendar-days span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 15px;
+    background: #008c8c;
+}
+
+.calendar-container .calendar-days span.active {
+    color: #008c8c;
+    background: #fff;
+    border: 1px solid #008c8c
+}
