@@ -17,32 +17,52 @@ function scroll(scrollTop, options = {}) {
     /**
      * 开始移动滚动条
      */
-    function scrollMove() {
-        return new Promise((resolve, reject) => {
-            if (dom.isScrolling) return;
-            if (onStart) { onStart(resolve); }
-            else { resolve() }
-        }).then(() => {
-            let timer = null;
-            clearInterval(timer);
+    // function scrollMove() {
+    //     return new Promise((resolve, reject) => {
+    //         if (dom.isScrolling) return;
+    //         if (onStart) { onStart(resolve); }
+    //         else { resolve() }
+    //     }).then(() => {
+    //         let timer = null;
+    //         clearInterval(timer);
 
-            let total = scrollTop - dom.scrollTop; // 需要移动的总距离
-            let times = Math.ceil(duration / tick); // 需要移动的次数
-            let dis = total / times;   // 每次移动多少距离 ：（目标 - 当前）/总共需要移动多少次 
-            let count = 0;
-            timer = setInterval(() => {
-                dom.scrollTop += dis;
-                count++;
-                if (count === times) {
-                    clearInterval(timer);
-                    if (onEnd) onEnd();
-                    else return;
-                    dom.isScrolling = false;
-                }
-            }, tick);
-        })
+    //         let total = scrollTop - dom.scrollTop; // 需要移动的总距离
+    //         let times = Math.ceil(duration / tick); // 需要移动的次数
+    //         let dis = total / times;   // 每次移动多少距离 ：（目标 - 当前）/总共需要移动多少次 
+    //         let count = 0;
+    //         timer = setInterval(() => {
+    //             dom.scrollTop += dis;
+    //             count++;
+    //             if (count === times) {
+    //                 clearInterval(timer);
+    //                 if (onEnd) onEnd();
+    //                 else return;
+    //                 dom.isScrolling = false;
+    //             }
+    //         }, tick);
+    //     })
+    // }
+    async function scrollMove() {
+        if (dom.isScrolling) return;
+        if (onStart) { await onStart(); }
+        else { resolve() }
+        let timer = null;
+        clearInterval(timer);
+        let total = scrollTop - dom.scrollTop; // 需要移动的总距离
+        let times = Math.ceil(duration / tick); // 需要移动的次数
+        let dis = total / times;   // 每次移动多少距离 ：（目标 - 当前）/总共需要移动多少次 
+        let count = 0;
+        timer = setInterval(() => {
+            dom.scrollTop += dis;
+            count++;
+            if (count === times) {
+                clearInterval(timer);
+                if (onEnd) onEnd();
+                else return;
+                dom.isScrolling = false;
+            }
+        }, tick);
     }
-    
     scrollMove()
 
 }
