@@ -1,6 +1,6 @@
 var game = document.getElementsByClassName('game')[0];
 var itemObj = []; // 根据该数组生成游戏项
-var itemNo = 36; // 游戏项数
+var itemNo = 4; // 游戏项数
 var itemMax = 6; // 游戏图片需要的种类
 /**
  * 初始化渲染游戏界面
@@ -40,7 +40,14 @@ function handlerItem() {
                     item.status = 'front';
                     backObj[0].dom.className = 'back';
                     item.dom.className = 'back';
-                }, 500)
+                }, 500) 
+            }
+            let sucLen = itemObj.filter((item) => item.status === 'front').length;
+            if (sucLen === 0) {
+                setTimeout(()=>{
+                    alert('游戏成功');
+                    location.reload();
+                },50)
             }
         }
     })
