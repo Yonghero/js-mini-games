@@ -1,95 +1,72 @@
-var game = document.getElementsByClassName('game')[0];
-var itemObj = []; // 根据该数组生成游戏项
-var itemNo = 4; // 游戏项数
-var itemMax = 6; // 游戏图片需要的种类
+let timer = null;
+let container = document.getElementsByClassName('container')[0];
+let center = document.getElementsByClassName('center')[0];
+let colorArr = ['#CC9999', '#FFFFCC', '#CCCC99', '#FFCCCC', '#FFFF99', '#CCCCFF'];
+let num = 0; // 起始数字
 /**
- * 初始化渲染游戏界面
+ * 游戏开始
  */
-function renderInit() {
-    createItem();
-    handlerItem();
-}
-/**
- * 为每一个游戏项添加相应的处理事件，玩法
- */
-function handlerItem() {
-    itemObj.forEach((item) => {
-        item.dom.onclick = function () {
-            // 不能翻转的情况
-            let len = itemObj.filter(item => item.status === 'back' || item.status == 'flipping').length
-            if (len >= 2 || item.status === 'succeed') return;
-            // 能翻转的情况
-            item.status = 'flipping';
-            this.className = 'flip';
+function start() {
+    timer = setInterval(() => {
+        let span = document.createElement('span');
+        span.innerHTML = num;
+        let bool = isRight(num);
+        let color = getRandom(colorArr.length, 0);
+        if (bool) {
+            span.style.color = colorArr[color];
+            span.style.textShadow = `0px 0px 3px ${colorArr[color]}`;
+            center.innerHTML = num;
+            var div = document.createElement('div');
+            div.innerHTML = num;
+            div.className = 'center';
+            div.style.color = colorArr[color];
             setTimeout(() => {
-                item.status = 'back';
-            }, 50);
-            // 判断两次翻转的游戏项是否一致
-            let backObj = itemObj.filter(item => item.status === 'back');
-            if (backObj[0] && backObj[0].number === item.number) {
-                setTimeout(() => {
-                    backObj[0].dom.className = 'success',
-                        item.dom.className = 'success';
-                    backObj[0].status = 'succeed'
-                    item.status = 'succeed';
-                }, 500)
-            }
-            else if (backObj[0] && backObj[0].number !== item.number) {
-                setTimeout(() => {
-                    backObj[0].status = 'front';
-                    item.status = 'front';
-                    backObj[0].dom.className = 'back';
-                    item.dom.className = 'back';
-                }, 500) 
-            }
-            let sucLen = itemObj.filter((item) => item.status === 'front').length;
-            if (sucLen === 0) {
-                setTimeout(()=>{
-                    alert('游戏成功');
-                    location.reload();
-                },50)
-            }
+                div.style.transform = `translate(${getRandom(300, -300)}%,${getRandom(300, -300)}%)`;
+                div.style.opacity = '0';
+            }, 50)
+            document.body.appendChild(div);
+            // 动画结束移除dom
+            div.addEventListener('transitionend', () => {
+                div.remove();
+            })
         }
-    })
+        container.appendChild(span);
+        //让滚动条一直滚动到最底部
+        // document.documentElement.scrollTop = document.documentElement.scrollHeight;
+        num++;
+        span.scrollIntoView();// 让页面滚动到该元素的位置
+
+    }, 100)
+}
+function stop() {
+    clearInterval(timer);
+    timer = null;
 }
 /**
- * 生成每一个游戏项
+ * 判断是否满足条件，赋予颜色
+ * @param {*} num 
  */
-function createItem() {
-    bulidItemObj();
-    itemObj.forEach((item) => {
-        let li = document.createElement('li');
-        li.innerHTML = `<img src='./img/${item.number}.jpg'></img>`
-        game.appendChild(li);
-        item.dom = li;
-    })
-}
-/**
- * 构造生成游戏项的数组
- */
-function bulidItemObj() {
-    itemObj = new Array(itemNo);
-    for (let i = 0; i < itemObj.length; i += 2) {
-        let number = randomNumber(itemMax + 1, 1);
-        itemObj[i] = {
-            number, // 游戏图片的类型
-            status: 'front' // 游戏状态
-        };
-        itemObj[i + 1] = {
-            number,
-            status: 'front'
-        }
+function isRight(num) {
+    if (num < 2) {
+        return false;
     }
-    // 打乱每一个游戏项
-    itemObj.sort(() => {
-        return Math.random() - 0.5;
-    })
+    for (let i = 2; i < num; i++) {
+        if (num % i === 0) return false
+    }
+    return true
 }
 /**
- * 生成随机数
+ * 获取随机数
+ * @param {*} max 
+ * @param {*} min 
  */
-function randomNumber(max, min) {
+function getRandom(max, min) {
     return Math.floor(Math.random() * (max - min) + min);
 }
-
-renderInit();
+document.documentElement.onclick = function () {
+    if (timer) {
+        stop();
+    } else {
+        start();
+    }
+}
