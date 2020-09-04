@@ -1,100 +1,61 @@
-let infoArr = ['1山西襄汾饭店垮塌前视频曝光', '1特朗普正考虑限制中国学生赴美', '1谭松韵妈妈被撞案肇事者父亲回应', '1驻印度使馆回应印军再次非法越线', '1惊现帅气阿轩']
-let ul = document.getElementsByClassName('searchList')[0];
-let input = document.getElementById('sw');
-let searchBar = document.getElementsByClassName('baseBar')[0];
-let container = document.getElementsByClassName('container')[0];
-let curIndex = -1;
-/**
- * input输入关键字进行查找
- */
-function search() {
-    let keyWord = input.value;
-    if (!keyWord) return;
-    ul.innerHTML = ''
-    let kwArr = infoArr.filter(it => it.includes(keyWord));
-    if (kwArr.length !== 0) {
-        kwArr.forEach(info => {
-            let li = document.createElement('li');
-            let newInfo = info.replace(new RegExp(keyWord, 'g'), (r) => {
-                return `<span class='kw'>${r}</span>`
-            })
-            li.innerHTML = newInfo;
-            ul.appendChild(li);
-            showUl(true);
-        })
-    }
+let container = document.getElementById('container');
+let imgArr = []; // 生成图片数组
+for (let i = 1; i < 16; i++) {
+    imgArr.push(`img/${i}.jpg`);
+}
+let config = {
+    imgWidth: 220, // 每一张图片定宽
 }
 /**
- * 显示联想列表
+ * 根据配置创建图片元素
  */
-function showUl(bool) {
-    if (bool) {
-        ul.style.display = 'block';
-    } else {
-        ul.style.display = 'none';
-    }
+function renderImg() {
+    imgArr.forEach((item, i) => {
+        let img = document.createElement('img');
+        img.src = item;
+        img.style.position = 'absolute';
+        img.style.width = config.imgWidth + 'px';
+        img.onload = setImgPosition;
+        img.style.transition = ".5s";
+        container.appendChild(img);
+    })
 }
-
 /**
- * 选中列表项时的样式
+ * 设置图片的坐标位置
  */
-function showLi() {
-    if (ul.children.length !== 0) {
-        let lis = Array.from(ul.children);
-        lis.forEach(li => li.className = '')
-        lis[curIndex].className = 'active';
-        // ul.children[curIndex].classList.add('active');
+function setImgPosition() {
+    let info = getImgInfo();
+    let colArr = new Array(info.colNumber);
+    colArr.fill(0);
+    for (let i = 0; i < container.children.length; i++) {
+        let img = container.children[i];
+        let min = Math.min(...colArr);
+        img.style.top = min + 'px';
+        // 计算图片所在的是第几列
+        let col = colArr.indexOf(min);
+        let left = (col + 1) * info.gap + col * config.imgWidth;
+        img.style.left = left + 'px';
+        // 更新数组
+        colArr[col] += img.height + info.gap;
+    }
+    container.style.height = Math.max(...colArr) + 'px';
+}
+/**
+ * 获取图片的相关信息
+ */
+function getImgInfo() {
+    let containerWidth = container.clientWidth;
+    let colNumber = Math.floor(containerWidth / config.imgWidth); // 图片列数
+    let leftSpace = containerWidth - colNumber * config.imgWidth; // 剩余空间
+    let gap = leftSpace / (colNumber + 1); // 空隙大小
+    return {
+        colNumber,
+        gap
     }
 }
-// 事件绑定
-// 设定一个计时器 （防抖）
-let timer = null;
-input.oninput = () => {
+let timer;
+window.onresize = ()=>{
     clearTimeout(timer);
-    timer = setTimeout(search, 500);
+    setTimeout(setImgPosition,300);
 }
-input.onmouseenter = () => {
-    searchBar.classList.add('searchBar');
-    showUl(true);
-}
-container.onmouseover = (e) => {
-    if (e.target.tagName === 'LI') {
-        let lis = Array.from(ul.children);
-        curIndex = lis.indexOf(e.target);
-        showLi();
-    }
-}
-ul.onclick = (e) => {
-    if (e.target.tagName === 'LI') {
-        input.value = ul.children[curIndex].innerText;
-        searchBar.classList.remove('searchBar')
-        showUl(false);
-    }
-}
-document.body.onclick = (e) => {
-    if (e.target.tagName !== 'BODY') return;
-    searchBar.classList.remove('searchBar')
-    showUl(false);
-}
-
-container.onkeydown = (e) => {
-    if (e.key === 'ArrowUp') {
-        curIndex--;
-        if (curIndex < 0) curIndex = 0;
-    }
-    else if (e.key === 'ArrowDown') {
-        curIndex++;
-        if (curIndex >= ul.children.length) curIndex = ul.children.length - 1;
-    }
-    else if (e.key === 'Enter') {
-        input.value = ul.children[curIndex].innerText;
-        searchBar.classList.remove('searchBar')
-        showUl(false);
-    }
-    else {
-        return true;
-    }
-    showLi()
-    return false;
-}
-
+renderImg();
