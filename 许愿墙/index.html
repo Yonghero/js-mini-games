@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div id="cards">
+        <!-- <div class="item">
+            <div class="wish">111dsfasdfasdfadafsdf</div>
+            <span class="close">x</span>
+        </div> -->
+        <input type="text" class="text" placeholder="许个愿望吧">
+    </div>
+    <script>
+
+        const input = document.getElementsByClassName('text')[0];
+        input.onkeydown = (e) => {
+            let key = e.key;
+            if (!(key === 'Enter') || input.value === '') {
+                return;
+            }
+            new WishCard({
+                wrapper: document.getElementById('cards'),
+                wishContent: input.value
+            });
+            input.value = '';
+        } 
+    </script>
+</body>
+
+</html>

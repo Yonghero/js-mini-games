@@ -1,0 +1,6 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title><link rel="stylesheet" href="./css/index.css"></head><body><div id="wrapper"></div><script src="./js/index.js"></script><script>const mul=new Mul( {
+    mulNum: 9, // 生成几行几列乘法表
+    container: document.getElementById('wrapper'), mulColor: "aqua" // 乘法表的颜色
+}
+
+) </script></body></html>

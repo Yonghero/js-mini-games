@@ -9,14 +9,17 @@
 </head>
 
 <body>
-    <div id="wrapper"></div>
+    <div id="wrapper">
+
+    </div>
+
     <script src="./js/index.js"></script>
     <script>
-        const linkGame = new LinkGame({
-            rows: 7,
-            cols: 9,
-            difficult: 2, // 困难程度  1- 3
-            container: document.getElementById('wrapper')
+        const mul = new Mul({
+            mulNum: 12, // 生成几行几列乘法表
+            container: document.getElementById('wrapper'),
+            mulBaColor: "#abcdef", // 乘法表的颜色
+            mulFtColor: "#000" // 字体颜色
         })
     </script>
 </body>
