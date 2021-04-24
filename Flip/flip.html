@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .wrap {
+        width: 50%;
+        height: 100%;
+        transform: translate(50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .add ,.random{
+        width: 100px;
+        border: 1px solid skyblue;
+        background-color: #fff;
+        color: #000;
+        box-sizing: border-box;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .container .item{
+        width: 50px;
+        border: 1px solid mediumturquoise;
+        padding: 10px;
+        margin-right: -1px;
+        margin-bottom: -1px;
+        box-sizing: border-box;
+    }
+</style>
+
+<body>
+    <div class="wrap">
+        <button class="add">add</button>
+        <button class="random">random</button>
+        <div class="container">
+        </div>
+    </div>
+    <script src="./flip.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
