@@ -68,7 +68,6 @@ export default {
       this.dateList = _Date.map((date) => {
         const _day = date.getDate();
         const _month = date.getMonth()
-        console.log(_day === day && _month !== month);
         return {
           value: _day,
           invalid: date.getMonth() !== month,
